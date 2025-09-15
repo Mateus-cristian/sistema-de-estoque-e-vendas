@@ -1,0 +1,10 @@
+<h1 class="text-3xl font-bold text-blue-600 mb-4">Hello, Hotwire + Tailwind!</h1>
+
+<%= turbo_frame_tag "counter" do %>
+  <p class="mb-2">Contador: <%= @count %></p>
+
+  <%= button_to root_path, method: :post, form: { "data-turbo-frame": "counter" } do %>
+    <%= hidden_field_tag :count, @count.to_i + 1 %>
+    <span class="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer">Incrementar</span>
+  <% end %>
+<% end %>
