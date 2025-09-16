@@ -3,8 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "Admin Dashboard", type: :request do
-  let(:admin) { FactoryBot.create(:user, role: :admin, password: "password") }
-  let(:user) { FactoryBot.create(:user, role: :user, password: "password") }
+  let(:admin) { FactoryBot.create(:user, role: "admin", password: "password") }
+  let(:user) { FactoryBot.create(:user, role: "user", password: "password") }
 
   context "admin user" do
     it "can access the dashboard" do

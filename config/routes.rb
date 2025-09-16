@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  namespace :admin do
+    get "dashboard", to: "dashboard#index", as: :dashboard
+  end
   devise_for :users
   root "pages#home", via: [:get, :post]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
