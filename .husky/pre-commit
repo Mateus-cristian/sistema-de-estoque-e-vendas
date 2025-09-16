@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+bundle exec rubocop --force-exclusion
+status=$?
+if [ $status -eq 1 ]; then
+  echo "⚠️  RuboCop encontrou warnings! Corrija antes de commitar."
+fi
+exit 0
