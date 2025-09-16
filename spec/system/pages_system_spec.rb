@@ -3,8 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "Home Page", type: :system do
+  let(:user) { create(:user) }
   before do
     driven_by(:rack_test)
+    sign_in user
   end
 
   it "incrementa o contador" do
