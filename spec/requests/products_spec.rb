@@ -1,0 +1,52 @@
+RSpec.describe "Products", type: :request do
+  let(:admin){ FactoryBot.create(:user, role: :admin, password: "password") }
+  let(:valid_attributes) do
+    {
+      name: "Sample Product",
+      price: 19.99,
+      quantity: 100
+    }
+  end
+
+  let(:invalid_attributes) do
+    {
+      name: "",
+      price: -10,
+      quantity: -5
+    }
+  end
+
+  context "when logged in as admin" do
+    before { sign_in admin }
+
+    it "lists all products" do
+      product = FactoryBot.create(:product)
+      get products_path
+      expect(response).to have_http_status(200)
+      expect(response.body).to include(product.name)
+    end
+
+    it "creates a product with valid attributes" do
+      expect {
+        post products_path, params: { product: valid_attributes }
+      }.to change(Product, :count).by(1)
+      expect(response).to redirect_to(products_path)
+      follow_redirect!
+      expect(response.body).to include("Produto criado com sucesso")
+    end
+
+    it "does not create a product with invalid attributes" do
+      expect {
+        post products_path, params: { product: invalid_attributes }
+      }.not_to change(Product, :count)
+      expect(response.body).to include("Quantity must be greater than or equal to 0")
+    end
+  end
+
+  context "with guest user" do
+    it "redirects to login page when trying to access products" do
+      get products_path
+      expect(response).to redirect_to(new_user_session_path)
+    end
+  end
+end
