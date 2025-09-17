@@ -1,0 +1,33 @@
+
+<div class="flex items-center justify-center min-h-screen w-full">
+  <div class="bg-white border border-neutral-300 rounded-lg min-w-[320px] min-h-[320px] max-w-[90%] w-full py-8 px-6 md:max-w-[468px] md:p-14 flex flex-col justify-between">
+
+    <header class="text-center mb-6">
+      <h1 class="font-bold text-2xl md:text-3xl">Sistema Estoque</h1>
+      <h2 class="text-neutral-600 mt-2 leading-tight">Será enviado um email com as instruções de mudança de senha</h2>
+    </header>
+
+    <div class="flex flex-col">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "flex flex-col gap-4" }) do |f| %>
+        
+        <div class="flex flex-col gap-1">
+          <%= f.label :email, class: "font-semibold" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "border rounded px-3 py-2 w-full" %>
+          <% if resource.errors[:email].present? %>
+            <span class="text-red-600 text-sm"><%= resource.errors[:email].first %></span>
+          <% end %>
+        </div>
+
+        <div>
+          <%= f.submit "Enviar", class: "bg-red-700 text-white py-3 rounded w-full cursor-pointer hover:bg-red-600" %>
+        </div>
+
+      <% end %>
+    </div>
+
+    <footer class="flex flex-col gap-2 mt-6">
+      <%= link_to "Voltar", new_user_session_path, class: "text-red-700 font-semibold text-center" %>
+    </footer>
+
+  </div>
+</div>
