@@ -5,12 +5,6 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
   before_action :authenticate_user!
 
-   def require_admin!
-    unless current_user&.admin?
-      redirect_to root_path, alert: "Access denied"
-    end
-  end
-
   protected
 
   def configure_permitted_parameters
