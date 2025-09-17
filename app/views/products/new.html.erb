@@ -1,0 +1,32 @@
+<% if @product.errors.any? %>
+  <div id="error_explanation">
+    <ul>
+      <% @product.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<h1>Novo Produto</h1>
+
+<%= form_with model: @product do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :price %>
+    <%= f.number_field :price, step: 0.01 %>
+  </div>
+
+  <div>
+    <%= f.label :quantity %>
+    <%= f.number_field :quantity %>
+  </div>
+
+  <div>
+    <%= f.submit "Salvar" %>
+  </div>
+<% end %>
