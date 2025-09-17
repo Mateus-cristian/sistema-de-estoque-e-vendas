@@ -7,9 +7,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
-  validates :role, presence: true, inclusion: { in: %w[admin user] }
+  validates :role, presence: true
 
-  def admin?
-    role == "admin"
-  end
+
+  enum role: { user: 0, admin: 1 }
 end

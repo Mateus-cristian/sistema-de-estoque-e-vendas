@@ -24,7 +24,7 @@ RSpec.describe User, type: :model do
   end
 
   it "is invalid with an invalid role" do
-    user = FactoryBot.build(:user, role: "manager")
+    user = FactoryBot.build(:user, role: nil)
     expect(user).to be_invalid
   end
 
