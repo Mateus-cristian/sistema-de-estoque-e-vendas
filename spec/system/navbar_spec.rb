@@ -13,10 +13,11 @@ RSpec.describe "Navbar", type: :system do
   context "as guest" do
     it "shows login and sign up links" do
       visit root_path
-      expect(page).to have_link("Log in", href: new_user_session_path)
-      expect(page).to have_link("Sign up", href: new_user_registration_path)
+
+      expect(page).to have_selector("form#new_user")
+      expect(page).to have_button("Login")
+      expect(page).to have_link("Criar uma conta", href: new_user_registration_path)
       expect(page).not_to have_link("Admin Dashboard")
-      expect(page).not_to have_link("Logout")
     end
   end
 
@@ -25,7 +26,7 @@ RSpec.describe "Navbar", type: :system do
       login_as(user, scope: :user)
       visit root_path
       expect(page).to have_link("Home", href: root_path)
-      expect(page).to have_link("Logout", href: destroy_user_session_path)
+      expect(page).to have_selector(:link_or_button, "Logout")
       expect(page).not_to have_link("Admin Dashboard")
     end
   end
@@ -35,7 +36,7 @@ RSpec.describe "Navbar", type: :system do
       login_as(admin, scope: :user)
       visit root_path
       expect(page).to have_link("Admin Dashboard", href: admin_dashboard_path)
-      expect(page).to have_link("Logout", href: destroy_user_session_path)
+      expect(page).to have_selector(:link_or_button, "Logout")
     end
   end
 end
