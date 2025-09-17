@@ -12,6 +12,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 gem "tailwindcss-rails"
 gem 'devise'
+gem "cssbundling-rails"
 
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
