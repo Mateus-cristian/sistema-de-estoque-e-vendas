@@ -18,23 +18,23 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-
-        <nav>
+  <body class="min-h-screen" >
+    <main class=" bg-gray-50">
+ 
+        <% unless controller_name.in?(%w[sessions registrations passwords]) %>
+        <nav class="flex justify-end items-center gap-4 bg-gray-100 p-4 rounded mb-8">
           <% if user_signed_in? %>
             <% if current_user.admin? %>
-              <%= link_to "Admin Dashboard", admin_dashboard_path %>
+              <%= link_to "Admin Dashboard", admin_dashboard_path, class: "text-green-600 font-semibold hover:underline" %>
             <% end %>
-            <%= link_to "Home", root_path %>
-            <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+            <%= link_to "Home", root_path, class: "text-green-600 font-semibold hover:underline" %>
+            <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "text-red-600 font-semibold cursor-pointer hover:underline bg-transparent " %>
           <% else %>
-            <%= link_to "Log in", new_user_session_path %>
-            <%= link_to "Sign up", new_user_registration_path %>
+            <%= link_to "Log in", new_user_session_path, class: "text-blue-600 font-semibold hover:underline" %>
+            <%= link_to "Sign up", new_user_registration_path, class: "text-blue-600 font-semibold hover:underline" %>
           <% end %>
         </nav>
+      <% end %>
 
       <%= yield %>
     </main>
