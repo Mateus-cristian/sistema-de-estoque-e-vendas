@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe "Products", type: :request do
   let(:admin) { FactoryBot.create(:user, role: :admin, password: "password") }
   let(:product) { FactoryBot.create(:product) }
-  
+
   let(:valid_attributes) do
     {
       name: "Sample Product",
@@ -96,7 +97,7 @@ RSpec.describe "Products", type: :request do
 
     describe "DELETE /products/:id" do
       it "destroys the product" do
-        product 
+        product
         expect {
           delete product_path(product)
         }.to change(Product, :count).by(-1)
