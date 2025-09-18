@@ -3,7 +3,7 @@
 <ul>
   <% @sales.each do |sale| %>
     <li>
-      <%= sale.product.name %> - <%= sale.quantity %> - <%= sale.total %>
+      <%= link_to sale.product.name, sale_path(sale) %> - <%= sale.quantity %> - <%= sale.total %>
     </li>
   <% end %>
 </ul>

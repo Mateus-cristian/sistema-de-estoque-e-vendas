@@ -1,0 +1,8 @@
+<h1>Sale Details</h1>
+<p>
+  <strong>Product:</strong> <%= @sale.product.name %><br>
+  <strong>Quantity:</strong> <%= @sale.quantity %><br>
+  <strong>Total:</strong> <%= @sale.total %><br>
+  <strong>User:</strong> <%= @sale.user.email %>
+</p>
+<%= link_to "Back to Sales", sales_path %>
