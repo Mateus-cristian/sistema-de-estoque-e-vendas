@@ -4,18 +4,28 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.all
-  end
-
-  def new
     @product = Product.new
   end
 
   def create
     @product = Product.new(product_params)
     if @product.save
-      redirect_to products_path, notice: "Produto criado com sucesso"
+      respond_to do |format|
+        format.html { redirect_to products_path, notice: "Produto criado com sucesso" }
+        format.turbo_stream
+      end
     else
-      render :new
+      respond_to do |format|
+        format.html { render :new, status: :unprocessable_entity }
+        format.turbo_stream do
+          render turbo_stream: 
+          turbo_stream.replace(
+              "product_form", 
+              partial: "products/form", 
+              locals: { product: @product }), 
+            status: :unprocessable_entity
+        end
+      end
     end
   end
 
