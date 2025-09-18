@@ -72,6 +72,38 @@ RSpec.describe "Products", type: :request do
         expect(response.body).to include("Quantity must be greater than or equal to 0")
       end
     end
+
+    describe "PATCH /products/:id" do
+      it "updates a product with valid attributes" do
+        patch product_path(product), params: {
+          product: { name: "Updated Name" }
+        }
+        expect(response).to redirect_to(products_path)
+        follow_redirect!
+        expect(response.body).to include("Produto atualizado com sucesso")
+        expect(product.reload.name).to eq("Updated Name")
+      end
+
+      it "does not update with invalid attributes" do
+        patch product_path(product), params: {
+          product: { price: -10 }
+        }
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(product.reload.price).not_to eq(-10)
+      end
+    end
+
+    describe "DELETE /products/:id" do
+      it "destroys the product" do
+        product 
+        expect {
+          delete product_path(product)
+        }.to change(Product, :count).by(-1)
+        expect(response).to redirect_to(products_path)
+        follow_redirect!
+        expect(response.body).to include("Produto removido com sucesso")
+      end
+    end
   end
 
   context "with guest user" do
