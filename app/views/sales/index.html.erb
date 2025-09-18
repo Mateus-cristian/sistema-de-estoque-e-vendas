@@ -1,0 +1,9 @@
+<h1>Sales</h1>
+<%= link_to "New Sale", new_sale_path %>
+<ul>
+  <% @sales.each do |sale| %>
+    <li>
+      <%= sale.product.name %> - <%= sale.quantity %> - <%= sale.total %>
+    </li>
+  <% end %>
+</ul>

@@ -1,0 +1,14 @@
+<h1>New Sale</h1>
+<%= form_with model: @sale, local: true do |form| %>
+  <div>
+    <%= form.label :product_id %>
+    <%= form.number_field :product_id %>
+  </div>
+  <div>
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity %>
+  </div>
+  <div>
+    <%= form.submit "Create Sale" %>
+  </div>
+<% end %>
