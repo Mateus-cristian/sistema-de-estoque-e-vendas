@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Sale < ApplicationRecord
   belongs_to :product
   belongs_to :user
@@ -8,17 +6,19 @@ class Sale < ApplicationRecord
   validates :quantity, numericality: { only_integer: true, greater_than: 0 }
   validate :enough_stock
 
-  before_validation :calculate_total
+  before_create :calculate_total, :decrement_stock
 
   private
 
   def enough_stock
-      if product && quantity.present? && quantity > product.quantity
-        errors.add(:quantity, "exceeds available stock")
-      end
+    errors.add(:base, "Insufficient stock") if product && quantity.to_i > product.quantity
   end
 
   def calculate_total
-    self.total = product.price * quantity if product && quantity
+    self.total = product.price * quantity
+  end
+
+  def decrement_stock
+    product.update!(quantity: product.quantity - quantity)
   end
 end
