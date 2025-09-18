@@ -4,7 +4,12 @@ Rails.application.routes.draw do
   devise_for :users
   root "pages#home", via: [:get, :post]
 
-  resources :products, only: [:index, :new, :create]
+  resources :products, only: [:index, :new, :create, :update, :destroy] do
+    member do
+      get :form_page
+    end
+  end
+
 
   namespace :admin do
     get "dashboard", to: "dashboard#index", as: :dashboard

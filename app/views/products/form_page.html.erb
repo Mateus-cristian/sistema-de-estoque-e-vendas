@@ -1,0 +1,15 @@
+<% if @product.errors.any? %>
+  <div id="error_explanation">
+    <ul>
+      <% @product.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<h1><%= @product.new_record? ? "Novo Produto" : "Editar Produto" %></h1>
+
+<%= turbo_frame_tag "product_form" do %>
+  <%= render "form", product: @product %>
+<% end %>
