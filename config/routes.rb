@@ -3,16 +3,15 @@
 Rails.application.routes.draw do
   devise_for :users
   root "pages#home", via: [:get, :post]
-  
+
   resources :products, only: [:index, :new, :create]
 
   namespace :admin do
     get "dashboard", to: "dashboard#index", as: :dashboard
   end
 
- 
+
   get "up" => "rails/health#show", as: :rails_health_check
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-
 end

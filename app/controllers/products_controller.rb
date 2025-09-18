@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProductsController < ApplicationController
   include AdminAuthorization
   before_action :authenticate_user!
@@ -18,11 +20,11 @@ class ProductsController < ApplicationController
       respond_to do |format|
         format.html { render :new, status: :unprocessable_entity }
         format.turbo_stream do
-          render turbo_stream: 
+          render turbo_stream:
           turbo_stream.replace(
-              "product_form", 
-              partial: "products/form", 
-              locals: { product: @product }), 
+              "product_form",
+              partial: "products/form",
+              locals: { product: @product }),
             status: :unprocessable_entity
         end
       end
