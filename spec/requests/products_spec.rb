@@ -3,7 +3,8 @@ require "rails_helper"
 
 RSpec.describe "Products", type: :request do
   let(:admin) { FactoryBot.create(:user, role: :admin, password: "password") }
-
+  let(:product) { FactoryBot.create(:product) }
+  
   let(:valid_attributes) do
     {
       name: "Sample Product",
