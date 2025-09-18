@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :sales, only: [:index, :new, :create]
 
   namespace :admin do
     get "dashboard", to: "dashboard#index", as: :dashboard
