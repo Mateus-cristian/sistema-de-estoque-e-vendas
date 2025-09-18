@@ -12,7 +12,7 @@ class ProductsController < ApplicationController
     @product = Product.new
     render :form_page
   end
-  
+
   def form_page
     render :form_page
   end
