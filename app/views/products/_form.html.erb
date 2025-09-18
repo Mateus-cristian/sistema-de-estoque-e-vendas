@@ -1,0 +1,23 @@
+<%= form_with model: product, data: { turbo_frame: "product_form" } do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+    <%= product.errors.full_messages_for(:name).join(", ") %>
+  </div>
+
+  <div>
+    <%= f.label :price %>
+    <%= f.number_field :price, step: 0.01 %>
+    <%= product.errors.full_messages_for(:price).join(", ") %>
+  </div>
+
+  <div>
+    <%= f.label :quantity %>
+    <%= f.number_field :quantity %>
+    <%= product.errors.full_messages_for(:quantity).join(", ") %>
+  </div>
+
+  <div>
+    <%= f.submit "Salvar" %>
+  </div>
+<% end %>
