@@ -1,15 +1,19 @@
 <h1>Produtos</h1>
-<%= link_to "Novo Produto", new_product_path %>
+<% if policy(Product).create? %>
+  <%= link_to "Novo Produto", new_product_path %>
+<% end %>
 
 <%= turbo_frame_tag "products_list" do %>
-  <ul>
-    <% @products.each do |p| %>
-      <li id="<%= dom_id(p) %>" class="flex gap-1">
-        <%= p.name %> - <%= p.price %> - <%= p.quantity %>
-        <div class="flex gap-2">
-          <%= link_to "Editar", form_page_product_path(p) %> |
-          <%= button_to "Remover", product_path(p), method: :delete, data: { turbo_confirm: "Tem certeza?" }, form: { data: { turbo_frame: "_top" } } %>
-        </div>
+  <ul class="flex flex-col gap-1">
+    <% @products.each do |product| %>
+      <li id="<%= dom_id(product) %>" class="flex gap-2 items-center">
+        <span><%= product.name %> - R$ <%= product.price %> - Estoque: <%= product.quantity %></span>
+        <% if policy(product).edit? %>
+          - <%= link_to "Editar", form_page_product_path(product), class: "ml-2" %>
+        <% end %>
+        <% if policy(product).destroy? %>
+          |<%= button_to "Remover", product_path(product), method: :delete, data: { turbo_confirm: "Tem certeza?" }, form: { data: { turbo_frame: "_top" } }, class: "ml-2" %>
+        <% end %>
       </li>
     <% end %>
   </ul>
