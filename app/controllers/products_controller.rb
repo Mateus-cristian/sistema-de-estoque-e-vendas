@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ProductsController < ApplicationController
-  include AdminAuthorization
   before_action :authenticate_user!
   before_action :set_product, only: %i[update destroy form_page]
 
@@ -13,7 +12,6 @@ class ProductsController < ApplicationController
     @product = Product.new
     render :form_page
   end
-  
   def form_page
     render :form_page
   end
@@ -21,6 +19,7 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
+    authorize @product
     if @product.save
       respond_to do |format|
         format.html { redirect_to products_path, notice: "Produto criado com sucesso" }
@@ -42,6 +41,7 @@ class ProductsController < ApplicationController
   end
 
   def update
+    authorize @product
     respond_to do |format|
       if @product.update(product_params)
         format.html { redirect_to products_path, notice: "Produto atualizado com sucesso" }
@@ -60,6 +60,7 @@ class ProductsController < ApplicationController
   end
 
   def destroy
+    authorize @product
     @product.destroy
     respond_to do |format|
       format.html { redirect_to products_path, notice: "Produto removido com sucesso" }
