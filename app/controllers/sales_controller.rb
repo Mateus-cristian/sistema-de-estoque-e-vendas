@@ -21,6 +21,10 @@ class SalesController < ApplicationController
     end
   end
 
+  def show
+    @sale = Sale.find(params[:id])
+  end
+
   private
 
   def sale_params
