@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+require "rails_helper"
+
 RSpec.describe "Products", type: :request do
-  let(:admin){ FactoryBot.create(:user, role: :admin, password: "password") }
+  let(:admin) { FactoryBot.create(:user, role: :admin, password: "password") }
+
   let(:valid_attributes) do
     {
       name: "Sample Product",
@@ -19,27 +23,54 @@ RSpec.describe "Products", type: :request do
   context "when logged in as admin" do
     before { sign_in admin }
 
-    it "lists all products" do
-      product = FactoryBot.create(:product)
-      get products_path
-      expect(response).to have_http_status(200)
-      expect(response.body).to include(product.name)
+    context "HTML requests" do
+      it "lists all products" do
+        product = FactoryBot.create(:product)
+        get products_path
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(product.name)
+      end
+
+      it "creates a product with valid attributes" do
+        expect {
+          post products_path, params: { product: valid_attributes }
+        }.to change(Product, :count).by(1)
+        expect(response).to redirect_to(products_path)
+        follow_redirect!
+        expect(response.body).to include("Produto criado com sucesso")
+      end
+
+      it "does not create a product with invalid attributes" do
+        expect {
+          post products_path, params: { product: invalid_attributes }
+        }.not_to change(Product, :count)
+        expect(response.body).to include("Quantity must be greater than or equal to 0")
+      end
     end
 
-    it "creates a product with valid attributes" do
-      expect {
-        post products_path, params: { product: valid_attributes }
-      }.to change(Product, :count).by(1)
-      expect(response).to redirect_to(products_path)
-      follow_redirect!
-      expect(response.body).to include("Produto criado com sucesso")
-    end
+    context "Turbo Stream requests" do
+      it "creates a product and returns turbo_stream" do
+        expect {
+          post products_path,
+               params: { product: valid_attributes },
+               headers: { "Accept" => "text/vnd.turbo-stream.html" }
+        }.to change(Product, :count).by(1)
 
-    it "does not create a product with invalid attributes" do
-      expect {
-        post products_path, params: { product: invalid_attributes }
-      }.not_to change(Product, :count)
-      expect(response.body).to include("Quantity must be greater than or equal to 0")
+        expect(response).to have_http_status(:ok)
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+      end
+
+      it "renders errors with turbo_stream when invalid" do
+        expect {
+          post products_path,
+               params: { product: invalid_attributes },
+               headers: { "Accept" => "text/vnd.turbo-stream.html" }
+        }.not_to change(Product, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include("Quantity must be greater than or equal to 0")
+      end
     end
   end
 
