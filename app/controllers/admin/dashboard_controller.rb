@@ -7,5 +7,7 @@ class Admin::DashboardController < ApplicationController
 
 
   def index
+    @total_sales = Sale.count
+    @low_stock_products = Product.where("quantity < ?", 5)
   end
 end
