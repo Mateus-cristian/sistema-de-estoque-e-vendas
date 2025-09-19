@@ -2,8 +2,11 @@
 <%= link_to "New Sale", new_sale_path %>
 <ul>
   <% @sales.each do |sale| %>
-    <li>
+    <li >
       <%= link_to sale.product.name, sale_path(sale) %> - <%= sale.quantity %> - <%= sale.total %>
+      <% if policy(sale).destroy? %>
+        <%= button_to 'Delete', sale_path(sale), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% end %>
     </li>
   <% end %>
 </ul>

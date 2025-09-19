@@ -6,3 +6,6 @@
   <strong>User:</strong> <%= @sale.user.email %>
 </p>
 <%= link_to "Back to Sales", sales_path %>
+<% if policy(@sale).destroy? %>
+  <%= button_to 'Delete', sale_path(@sale), method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
