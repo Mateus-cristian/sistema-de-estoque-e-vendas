@@ -21,7 +21,7 @@ RSpec.describe "Admin Dashboard", type: :request do
       get admin_dashboard_path
       expect(response).to redirect_to(root_path)
       follow_redirect!
-      expect(response.body).to include("Access denied")
+      expect(flash[:alert]).to eq("Access denied")
     end
   end
 

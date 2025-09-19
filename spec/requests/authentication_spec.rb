@@ -18,7 +18,7 @@ RSpec.describe "Authentication", type: :request do
           }
         }
       }.to change(User, :count).by(1)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(home_path)
     end
   end
 
