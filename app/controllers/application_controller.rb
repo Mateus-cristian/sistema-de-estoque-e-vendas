@@ -5,11 +5,18 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   allow_browser versions: :modern
   before_action :authenticate_user!
-
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  
   protected
-
+  
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [ :name, :role ])
     devise_parameter_sanitizer.permit(:account_update, keys: [ :name, :role ])
+  end
+  
+  private
+  
+  def user_not_authorized
+    head :forbidden
   end
 end
