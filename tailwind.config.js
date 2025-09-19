@@ -4,7 +4,8 @@ module.exports = {
     './app/views/**/*.erb',
     './app/helpers/**/*.rb',
     './app/javascript/**/*.js',
-    './app/assets/stylesheets/**/*.css'
+    './app/assets/stylesheets/**/*.css',
+    './config/initializers/heroicon.rb',
   ],
   theme: {
     extend: {},
