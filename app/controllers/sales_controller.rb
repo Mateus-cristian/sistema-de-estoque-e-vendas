@@ -2,6 +2,7 @@
 
 class SalesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_sale, only: %i[show destroy]
 
   def index
     @sales = Sale.all
@@ -22,6 +23,19 @@ class SalesController < ApplicationController
   end
 
   def show
+    authorize @sale
+  end
+
+  def destroy
+    authorize @sale
+    @sale.destroy
+    respond_to do |format|
+      format.html { redirect_to sales_path, notice: "Venda removida com sucesso" }
+      format.turbo_stream
+    end
+  end
+
+  def set_sale
     @sale = Sale.find(params[:id])
   end
 
