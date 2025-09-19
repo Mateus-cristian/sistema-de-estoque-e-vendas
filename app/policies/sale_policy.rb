@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SalePolicy < ApplicationPolicy
   def show?
     user == record.user
