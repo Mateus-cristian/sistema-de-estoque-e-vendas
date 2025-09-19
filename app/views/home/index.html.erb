@@ -1,0 +1,10 @@
+<div class="min-h-screen flex items-center justify-center bg-neutral-50">
+  <div class="bg-white border border-neutral-200 rounded-xl shadow-lg p-8 max-w-lg w-full flex flex-col items-center gap-6">
+    <h1 class="text-3xl font-extrabold text-red-700">Bem-vindo ao sistema!</h1>
+    <h2 class="text-lg text-neutral-600 text-center">Olá, <%= current_user.email %>!</h2>
+    <div class="w-full flex flex-col gap-3 mt-4">
+  <%= link_to "Produtos", products_path, class: "btn btn-accent w-full" %>
+  <%= link_to "Vendas", sales_path, class: "btn btn-outline btn-accent w-full" %>
+    </div>
+  </div>
+</div>

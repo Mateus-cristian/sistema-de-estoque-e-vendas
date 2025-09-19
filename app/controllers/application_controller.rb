@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   include Pundit::Authorization
   before_action :configure_permitted_parameters, if: :devise_controller?
   allow_browser versions: :modern
-  before_action :authenticate_user!
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   protected
@@ -18,5 +17,9 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     head :forbidden
+  end
+
+  def after_sign_in_path_for(resource)
+    home_path
   end
 end
