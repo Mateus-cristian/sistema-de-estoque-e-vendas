@@ -46,4 +46,30 @@ RSpec.describe "Sales", type: :request do
       expect(response.body).to include(sale.quantity.to_s)
     end
   end
+
+  describe "DELETE /sales/:id" do
+    context "when user is the owner" do
+      it "destroys sale" do
+        sale
+        expect {
+          delete sale_path(sale)
+        }.to change(Sale, :count).by(-1)
+        expect(response).to redirect_to(sales_path)
+        follow_redirect!
+        expect(response.body).to include("Venda removida com sucesso")
+      end
+    end
+
+    context "when user is not the owner" do
+      let(:other_user) { FactoryBot.create(:user) }
+      let!(:other_sale) { FactoryBot.create(:sale, user: other_user, product: product, quantity: 1) }
+
+      it "does not allow deleting another user's sale" do
+        expect {
+          delete sale_path(other_sale)
+        }.not_to change(Sale, :count)
+        expect(response).to have_http_status(:forbidden).or have_http_status(:redirect)
+      end
+    end
+  end
 end
