@@ -1,0 +1,119 @@
+<!-- app/views/pages/landing.html.erb -->
+<div class="bg-red-50 min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class=" bg-white w-full">
+    <div class="container mx-auto flex justify-between items-center py-6 px-4">
+      <div class="text-2xl font-bold text-red-700 flex items-center gap-2 justify-center">
+        <div class="text-red-600 text-sm md:text-2xl flex items-center">
+          <%= heroicon("archive-box", variant: :solid, options: {class: "w-1em h-1em align-middle"}) %>
+        </div>
+        <span class="text-red-700 text-sm md:text-2xl">Estoque e cia</span>
+      </div>
+      <nav class="flex gap-4">
+        <a href="<%= new_user_session_path %>" class="btn btn-sm bg-red-600 text-white hover:bg-red-700">Entrar</a>
+        <a href="<%= new_user_registration_path %>" class="btn btn-sm btn-outline border-red-600 text-red-600 hover:bg-red-600 hover:text-white">Cadastrar-se</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="container mx-auto flex flex-col md:flex-row items-center px-6 py-12 gap-10">
+    <div class="flex-1 space-y-4">
+      <h1 class="text-4xl font-bold text-gray-900">Sistema de Estoque</h1>
+      <p class="text-lg text-gray-700">Otimize seu inventário com eficiência e precisão.</p>
+      <p class="text-gray-600">
+        Gerencie seus produtos, armazéns e vendas de forma integrada. Nosso sistema oferece visibilidade total do estoque, 
+        minimizando perdas e maximizando lucros. Simples, poderoso e confiável.
+      </p>
+    </div>
+    <div class="flex-1 justify-end flex">
+        <%= image_tag "hero-image.jpg", alt: "Sistema Preview", class: "rounded-lg shadow-lg " %>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="bg-gray-50 py-16">
+    <div class="container mx-auto px-6">
+      <h2 class="text-center text-2xl font-bold text-gray-800 mb-10">Recursos Poderosos</h2>
+      <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+        <div class="card bg-white shadow-md p-6">
+          <div class="mb-3"><%= heroicon("cube", variant: :outline, options: {class: "w-8 h-8 text-red-600"}) %></div>
+          <h3 class="font-semibold text-lg text-gray-800">Rastreamento em Tempo Real</h3>
+          <p class="text-gray-600">Monitore seus produtos em cada etapa, garantindo dados precisos.</p>
+        </div>
+        <div class="card bg-white shadow-md p-6">
+          <div class="mb-3"><%= heroicon("chart-bar", variant: :outline, options: {class: "w-8 h-8 text-red-600"}) %></div>
+          <h3 class="font-semibold text-lg text-gray-800">Otimização de Estoque</h3>
+          <p class="text-gray-600">Ferramentas avançadas para prever demandas e evitar rupturas.</p>
+        </div>
+        <div class="card bg-white shadow-md p-6">
+          <div class="mb-3"><%= heroicon("document-chart-bar", variant: :outline, options: {class: "w-8 h-8 text-red-600"}) %></div>
+          <h3 class="font-semibold text-lg text-gray-800">Relatórios e Análises</h3>
+          <p class="text-gray-600">Obtenha insights valiosos com relatórios detalhados.</p>
+        </div>
+        <div class="card bg-white shadow-md p-6">
+          <div class="mb-3"><%= heroicon("users", variant: :outline, options: {class: "w-8 h-8 text-red-600"}) %></div>
+          <h3 class="font-semibold text-lg text-gray-800">Gestão de Usuários</h3>
+          <p class="text-gray-600">Controle acesso e permissões de sua equipe com segurança.</p>
+        </div>
+        <div class="card bg-white shadow-md p-6">
+          <div class="mb-3"><%= heroicon("truck", variant: :outline, options: {class: "w-8 h-8 text-red-600"}) %></div>
+          <h3 class="font-semibold text-lg text-gray-800">Integração com Fornecedores</h3>
+          <p class="text-gray-600">Agilize pedidos e comunicações com fornecedores.</p>
+        </div>
+        <div class="card bg-white shadow-md p-6">
+          <div class="mb-3"><%= heroicon("sparkles", variant: :outline, options: {class: "w-8 h-8 text-red-600"}) %></div>
+          <h3 class="font-semibold text-lg text-gray-800">Interface Intuitiva</h3>
+          <p class="text-gray-600">Design moderno, fácil navegação, sem complicação.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  <section class="py-8 bg-white">
+    <h2 class="text-center text-2xl font-bold text-gray-800 mb-8">O que nossos clientes dizem</h2>
+    <% if @testimonials.present? %>
+      <div class="carousel w-full py-6">
+        <% @testimonials.each_with_index do |slide, idx| %>
+          <div id="item<%= idx+1 %>" class="carousel-item w-full flex flex-col items-center justify-center">
+            <img src="<%= slide[:image_url] %>" class="w-24 h-24 rounded-full object-cover border-4 border-red-100 shadow mb-4 mx-auto mt-8" alt="Foto de <%= slide[:name] %>" />
+            <p class="text-gray-700 text-lg italic text-center mb-4 max-w-xl">“<%= slide[:quote] %>”</p>
+            <div class="text-center mb-8">
+              <div class="font-semibold text-gray-900"><%= slide[:name] %></div>
+              <div class="text-sm text-gray-500"><%= slide[:role] %></div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="flex w-full justify-center gap-2 py-2">
+        <% @testimonials.each_with_index do |_, idx| %>
+          <a href="#item<%= idx+1 %>" class="btn btn-xs"><%= idx+1 %></a>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="text-center text-gray-500 italic py-12">Nenhum depoimento disponível no momento.</div>
+    <% end %>
+  </section>
+
+
+  <!-- CTA -->
+  <section class="bg-red-50 py-16">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Comece a Otimizar Seu Estoque Hoje!</h2>
+      <p class="text-gray-600 mb-6">Dê o primeiro passo para uma gestão de inventário mais inteligente e lucrativa.</p>
+      <a href="#" class="btn bg-red-600 text-white hover:bg-red-700">Solicite uma cotação</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white  py-6">
+    <div class="container mx-auto px-6 flex justify-between text-sm text-gray-500">
+      <div>© 2025 Sistema de Estoque. Todos os direitos reservados.</div>
+      <div class="flex gap-4">
+        <a href="#">Legal</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </footer>
+</div>
