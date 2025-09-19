@@ -1,11 +1,11 @@
 <h1>Sales</h1>
-<%= link_to "New Sale", new_sale_path %>
+<%= link_to "Nova Venda", new_sale_path %>
 <ul>
   <% @sales.each do |sale| %>
     <li >
-      <%= link_to sale.product.name, sale_path(sale) %> - <%= sale.quantity %> - <%= sale.total %>
+  <%= link_to sale.product.name, sale_path(sale) %> - <%= sale.quantity %> - <%= sale.total %>
       <% if policy(sale).destroy? %>
-        <%= button_to 'Delete', sale_path(sale), method: :delete, data: { confirm: 'Are you sure?' } %>
+  <%= button_to 'Remover', sale_path(sale), method: :delete, data: { confirm: 'Tem certeza?' } %>
       <% end %>
     </li>
   <% end %>

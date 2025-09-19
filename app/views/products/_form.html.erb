@@ -1,4 +1,4 @@
-<%= form_with model: product, data: { turbo_frame: "product_form" } do |f| %>
+<%= form_with(model: product, url: product.persisted? ? product_path(product) : products_path, method: product.persisted? ? :patch : :post, data: { turbo_frame: "product_form" }) do |f| %>
   <div>
     <%= f.label :name %>
     <%= f.text_field :name %>

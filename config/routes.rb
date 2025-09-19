@@ -3,21 +3,22 @@
 Rails.application.routes.draw do
   devise_for :users
   root "pages#home", via: [:get, :post]
+  get "landing", to: "landing#index", as: :landing
+  get "home", to: "home#index", as: :home
 
-  resources :products, only: [:index, :new, :create, :update, :destroy] do
+  resources :products, path: "produtos", controller: "products", only: [:index, :new, :create, :update, :destroy, :edit, :show] do
     member do
       get :form_page
     end
   end
 
-  resources :sales, only: [:index, :new, :create, :show, :destroy]
+  resources :sales, path: "vendas", only: [:index, :new, :create, :show, :destroy]
 
   namespace :admin do
-    get "dashboard", to: "dashboard#index", as: :dashboard
-    get "reports", to: "reports#index", as: :reports
-    get "stock-report", to: "stock_reports#index", as: :stock_report
+    get :dashboard, path: "painel", to: "dashboard#index"
+    get :reports, path: "relatorios", to: "reports#index"
+    get :stock_report, path: "relatorio-estoque", to: "stock_reports#index"
   end
-
 
   get "up" => "rails/health#show", as: :rails_health_check
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker

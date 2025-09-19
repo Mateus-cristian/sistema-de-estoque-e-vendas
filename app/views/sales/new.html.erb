@@ -1,5 +1,5 @@
 <h1>New Sale</h1>
-<%= form_with model: @sale, local: true do |form| %>
+<%= form_with(model: @sale, url: sales_path, local: true) do |form| %>
   <div>
     <%= form.label :product_id %>
     <%= form.number_field :product_id %>

@@ -11,7 +11,7 @@
         
         <div class="flex flex-col gap-1">
           <%= f.label :email, class: "font-semibold" %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "border rounded px-3 py-2 w-full" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "border rounded input w-full" %>
           <% if resource.errors[:email].present? %>
             <span class="text-red-600 text-sm"><%= resource.errors[:email].first %></span>
           <% end %>
@@ -19,7 +19,7 @@
 
         <div class="flex flex-col gap-1">
           <%= f.label :password, class: "font-semibold" %>
-          <%= f.password_field :password, autocomplete: "current-password", class: "border rounded px-3 py-2 w-full" %>
+          <%= f.password_field :password, autocomplete: "current-password", class: "border rounded input w-full" %>
           <% if resource.errors[:password].present? %>
             <span class="text-red-600 text-sm"><%= resource.errors[:password].first %></span>
           <% end %>
@@ -32,9 +32,7 @@
           </div>
         <% end %>
 
-        <div>
-          <%= f.submit "Login", class: "bg-red-700 text-white py-3 rounded w-full cursor-pointer hover:bg-red-600" %>
-        </div>
+        <%= f.submit "Login", class: "btn bg-red-700 text-white  rounded w-full cursor-pointer hover:bg-red-600" %>
 
       <% end %>
     </div>

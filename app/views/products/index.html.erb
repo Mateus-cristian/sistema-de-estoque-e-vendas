@@ -9,7 +9,8 @@
       <li id="<%= dom_id(product) %>" class="flex gap-2 items-center">
         <span><%= product.name %> - R$ <%= product.price %> - Estoque: <%= product.quantity %></span>
         <% if policy(product).edit? %>
-          - <%= link_to "Editar", form_page_product_path(product), class: "ml-2" %>
+          - <%= link_to "Editar", edit_product_path(product), class: "ml-2" %>
+            - <%= link_to "Editar (Form Page)", form_page_product_path(product), class: "ml-2" %>
         <% end %>
         <% if policy(product).destroy? %>
           |<%= button_to "Remover", product_path(product), method: :delete, data: { turbo_confirm: "Tem certeza?" }, form: { data: { turbo_frame: "_top" } }, class: "ml-2" %>
