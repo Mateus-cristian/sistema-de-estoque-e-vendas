@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get "dashboard", to: "dashboard#index", as: :dashboard
     get "reports", to: "reports#index", as: :reports
+    get "stock-report", to: "stock_reports#index", as: :stock_report
   end
 
 
