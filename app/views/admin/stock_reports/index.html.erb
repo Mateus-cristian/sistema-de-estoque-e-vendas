@@ -1,0 +1,15 @@
+<h1>Relatório de Estoque Baixo</h1>
+
+<%= form_with url: admin_stock_report_path, method: :get, local: true do |f| %>
+  <label>Limite:</label>
+  <%= f.number_field :threshold, value: @threshold %>
+  <%= f.submit "Filtrar" %>
+<% end %>
+
+<ul>
+  <% @products.each do |product| %>
+    <li>
+      <%= product.name %> (Qtd: <%= product.quantity %>)
+    </li>
+  <% end %>
+</ul>
