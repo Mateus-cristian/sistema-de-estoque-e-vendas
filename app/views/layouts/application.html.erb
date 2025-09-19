@@ -17,13 +17,13 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-
+    <%= favicon_link_tag 'archive-box.svg' %>
   </head>
 
   <body class="min-h-screen" >
     <main class=" bg-gray-50">
  
-        <% unless controller_name.in?(%w[sessions registrations passwords]) %>
+        <% unless controller_name.in?(%w[sessions registrations passwords landing]) %>
         <nav class="flex justify-end items-center gap-4 bg-gray-100 p-4 rounded mb-8">
           <% if user_signed_in? %>
             <% if current_user.admin? %>
