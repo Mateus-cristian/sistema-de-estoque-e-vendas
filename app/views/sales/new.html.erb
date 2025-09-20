@@ -1,14 +1,5 @@
-<h1>New Sale</h1>
-<%= form_with(model: @sale, url: sales_path, local: true) do |form| %>
-  <div>
-    <%= form.label :product_id %>
-    <%= form.number_field :product_id %>
+<div class="w-full flex justify-center items-center py-6 px-2">
+  <div class="w-full max-w-md bg-white rounded-xl shadow p-6 md:p-8 flex flex-col gap-4">
+    <h1 class="text-red-700 font-bold text-2xl"><%= @sale.new_record? ? "Nova Venda" : "Editar Venda" %></h1>
+    <%= render "form", sale: @sale %>
   </div>
-  <div>
-    <%= form.label :quantity %>
-    <%= form.number_field :quantity %>
-  </div>
-  <div>
-    <%= form.submit "Create Sale" %>
-  </div>
-<% end %>

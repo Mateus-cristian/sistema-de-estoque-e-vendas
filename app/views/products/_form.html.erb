@@ -1,23 +1,38 @@
-<%= form_with(model: product, url: product.persisted? ? product_path(product) : products_path, method: product.persisted? ? :patch : :post, data: { turbo_frame: "product_form" }) do |f| %>
-  <div>
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-    <%= product.errors.full_messages_for(:name).join(", ") %>
-  </div>
+<div class="w-full flex justify-center items-center py-6 px-2">
+  <div class="w-full max-w-md bg-white rounded-xl shadow p-6 md:p-8 flex flex-col gap-4">
+    <h1 class="text-red-700 font-bold text-2xl"><%= @product.new_record? ? "Novo Produto" : "Editar Produto" %></h1>
+    <%= form_with(model: product, url: product.persisted? ? product_path(product) : products_path, method: product.persisted? ? :patch : :post, data: { turbo_frame: "product_form" }, class: "flex flex-col gap-4") do |f| %>
 
-  <div>
-    <%= f.label :price %>
-    <%= f.number_field :price, step: 0.01 %>
-    <%= product.errors.full_messages_for(:price).join(", ") %>
-  </div>
+      <div class="flex flex-col gap-1">
+        <%= f.label :name, "Nome", class: "font-semibold" %>
+        <%= f.text_field :name, class: "border rounded px-3 py-2 w-full" %>
+        <% if product.errors[:name].present? %>
+          <span class="text-red-600 text-sm"><%= product.errors[:name].first %></span>
+        <% end %>
+      </div>
 
-  <div>
-    <%= f.label :quantity %>
-    <%= f.number_field :quantity %>
-    <%= product.errors.full_messages_for(:quantity).join(", ") %>
-  </div>
 
-  <div>
-    <%= f.submit "Salvar" %>
+      <div class="flex flex-col gap-1">
+        <%= f.label :price, "Preço", class: "font-semibold" %>
+        <%= f.number_field :price, step: 0.01, class: "border rounded px-3 py-2 w-full" %>
+        <% if product.errors[:price].present? %>
+          <span class="text-red-600 text-sm"><%= product.errors[:price].first %></span>
+        <% end %>
+      </div>
+
+
+      <div class="flex flex-col gap-1">
+        <%= f.label :quantity, "Quantidade", class: "font-semibold" %>
+        <%= f.number_field :quantity, class: "border rounded px-3 py-2 w-full" %>
+        <% if product.errors[:quantity].present? %>
+          <span class="text-red-600 text-sm"><%= product.errors[:quantity].first %></span>
+        <% end %>
+      </div>
+
+
+      <div>
+        <%= f.submit product.persisted? ? "Atualizar" : "Salvar", class: "button-solid w-full" %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>

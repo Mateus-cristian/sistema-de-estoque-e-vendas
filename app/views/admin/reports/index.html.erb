@@ -1,17 +1,68 @@
-<h1>Relatório de Vendas</h1>
+<div class="flex flex-col gap-6 md:container md:mx-auto p-4">
+  <div class="flex items-center justify-between mb-2">
+    <h1 class="font-bold text-red-700 text-2xl">Relatório de Vendas</h1>
+    <%= render "shared/back_button", back_path: admin_dashboard_path %>
+  </div>
+  <div class="bg-white rounded-xl shadow p-4 flex flex-col gap-4">
+    <%= form_with url: admin_reports_path, method: :get, local: true, class: "flex flex-col md:flex-row md:items-end gap-2 md:gap-4" do |f| %>
+      <div class="flex flex-col">
+        <label class="font-semibold">Início:</label>
+        <%= f.date_field :start_date, value: @start_date, class: "border rounded px-3 py-2" %>
+      </div>
+      <div class="flex flex-col">
+        <label class="font-semibold">Fim:</label>
+        <%= f.date_field :end_date, value: @end_date, class: "border rounded px-3 py-2" %>
+      </div>
+      <%= f.submit "Filtrar", class: "button-outline w-full md:w-auto" %>
+    <% end %>
+  </div>
 
-<%= form_with url: admin_reports_path, method: :get, local: true do |f| %>
-  <label>Início:</label>
-  <%= f.date_field :start_date, value: @start_date %>
-  <label>Fim:</label>
-  <%= f.date_field :end_date, value: @end_date %>
-  <%= f.submit "Filtrar" %>
-<% end %>
+  <div class="bg-white rounded-xl shadow p-4 flex flex-col gap-2 mt-4">
+    <h2 class="font-bold text-lg text-gray-700 mb-2">Vendas</h2>
 
-<ul>
-  <% @sales.each do |sale| %>
-    <li>
-      <%= sale.product.name %> - <%= sale.quantity %> - <%= l(sale.created_at, format: :short) %>
-    </li>
-  <% end %>
-</ul>
+    <ul class="flex flex-col  md:hidden">
+      <% @sales.each_with_index do |sale, index| %>
+        <li class="py-2 flex flex-col ">
+          <% if index > 0 %>
+            <div class="py-1 border-t border-gray-200"></div>
+          <% end %>
+          <div class="font-semibold">Produto</div>
+          <span class="text-md"><%= sale.product.name %></span>
+          <div class="font-semibold">Quantidade</div>
+          <span><%= sale.quantity %></span>
+          <div class="font-semibold">Data</div>
+          <span class="text-gray-500 text-sm"><%= l(sale.created_at, format: :short) %></span>
+        </li>
+      <% end %>
+      <% if @sales.empty? %>
+        <li class="text-gray-500">Nenhuma venda encontrada.</li>
+      <% end %>
+    </ul>
+
+    <div class="overflow-x-auto container hidden md:block">
+      <table class="table w-full min-w-[500px]">
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @sales.each do |sale| %>
+            <tr>
+              <td class="font-medium"><%= sale.product.name %></td>
+              <td class="font-medium"><%= sale.quantity %></td>
+              <td class="text-gray-500 text-sm"><%= l(sale.created_at, format: :short) %></td>
+            </tr>
+          <% end %>
+          <% if @sales.empty? %>
+            <tr>
+              <td colspan="3" class="text-gray-500 text-center">Nenhuma venda encontrada.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

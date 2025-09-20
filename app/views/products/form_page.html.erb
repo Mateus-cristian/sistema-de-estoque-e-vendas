@@ -8,7 +8,7 @@
   </div>
 <% end %>
 
-<h1><%= @product.new_record? ? "Novo Produto" : "Editar Produto" %></h1>
+
 
 <%= turbo_frame_tag "product_form" do %>
   <%= render "form", product: @product %>

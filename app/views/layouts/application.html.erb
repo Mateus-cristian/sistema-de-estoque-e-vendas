@@ -16,7 +16,6 @@
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
     <%= favicon_link_tag 'archive-box.svg' %>
   </head>
 
@@ -24,27 +23,40 @@
     <main class=" bg-gray-50">
  
         <% unless controller_name.in?(%w[sessions registrations passwords landing]) %>
-        <nav class="flex justify-end items-center gap-4 bg-gray-100 p-4 rounded mb-8">
-          <% if user_signed_in? %>
-            <% if current_user.admin? %>
-              <%= link_to "Admin Dashboard", admin_dashboard_path, class: "text-green-600 font-semibold hover:underline" %>
-            <% end %>
-            <%= link_to "Home", root_path, class: "text-green-600 font-semibold hover:underline" %>
-            <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "text-red-600 font-semibold cursor-pointer hover:underline bg-transparent " %>
-          <% else %>
-            <%= link_to "Log in", new_user_session_path, class: "text-blue-600 font-semibold hover:underline" %>
-            <%= link_to "Sign up", new_user_registration_path, class: "text-blue-600 font-semibold hover:underline" %>
-          <% end %>
+        <nav class=" bg-gray-100 py-4 rounded w-full flex justify-center">
+          <div class="container flex justify-between items-center w-full">
+            <div class="text-2xl font-bold text-red-700 flex items-center gap-2 justify-center">
+              <div class="text-red-600 text-sm md:text-2xl flex items-center">
+                <%= heroicon("archive-box", variant: :solid, options: {class: "w-1em h-1em align-middle"}) %>
+              </div>
+              <span class="text-red-700 text-sm md:text-2xl">Estoque e cia</span>
+            </div>
+            <div class="flex gap-4">
+              <% if user_signed_in? %>
+                <% if current_user.admin? %>
+                  <%= link_to "Admin Dashboard", admin_dashboard_path, class: "link-redirect" %>
+                <% end %>
+                <%= link_to "Home", root_path, class: "link-redirect" %>
+                <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "link-redirect " %>
+              <% else %>
+                <%= link_to "Log in", new_user_session_path, class: "text-blue-600 font-semibold hover:underline" %>
+                <%= link_to "Sign up", new_user_registration_path, class: "text-blue-600 font-semibold hover:underline" %>
+              <% end %>
+            </div>
+          </div>
         </nav>
       <% end %>
 
-      <% if flash[:alert] %>
-        <div class="alert"><%= flash[:alert] %></div>
+      <%= turbo_frame_tag "toast" do %>
+        <%= render "shared/toast" %>
       <% end %>
-      <% if flash[:notice] %>
-        <div class="notice"><%= flash[:notice] %></div>
+      <% unless controller_name.in?(%w[sessions registrations passwords landing]) %>
+      <div class="min-h-[calc(100vh-64px)]">
+        <%= yield %>
+      </div>
+      <% else %>
+        <%= yield %>
       <% end %>
-      <%= yield %>
     </main>
   </body>
 </html>
