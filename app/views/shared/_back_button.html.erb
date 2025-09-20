@@ -1,0 +1,5 @@
+<% label = local_assigns[:back_label] || "Voltar" %>
+<% path = local_assigns[:back_path] || :back %>
+<%= link_to path, class: "button-solid max-w-[150px] flex items-center gap-1 text-sm" do %>
+  <span><%= label %></span>
+<% end %>
