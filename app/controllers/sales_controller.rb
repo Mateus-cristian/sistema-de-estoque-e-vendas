@@ -15,10 +15,33 @@ class SalesController < ApplicationController
   def create
     @sale = Sale.new(sale_params)
     @sale.user = current_user
-    if @sale.save
-      redirect_to sales_path, notice: "Sale was successfully created."
-    else
-      render :new, status: :unprocessable_entity
+    respond_to do |format|
+      if @sale.save
+        flash.now[:notice] = I18n.t("sales.created")
+        format.html { redirect_to sales_path, notice: I18n.t("sales.created") }
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.replace("toast", partial: "shared/toast", locals: { notice: I18n.t("sales.created"), alert: nil }),
+            turbo_stream.replace("sale_form", partial: "sales/form", locals: { sale: Sale.new })
+          ]
+        end
+      else
+        translated_errors = @sale.errors.map do |attr, msg|
+          attr_name = Sale.human_attribute_name(attr)
+          if msg.present?
+            msg = msg.gsub(attr.to_s.humanize, attr_name) if msg.is_a?(String)
+            msg.include?(attr_name) ? msg : "#{attr_name} #{msg}"
+          end
+        end.compact.uniq.join(", ")
+        flash.now[:alert] = I18n.t("sales.error", errors: translated_errors)
+        format.html { render :new, status: :unprocessable_entity }
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.replace("toast", partial: "shared/toast", locals: { notice: nil, alert: I18n.t("sales.error", errors: @sale.errors.full_messages.to_sentence) }),
+            turbo_stream.replace("sale_form", partial: "sales/form", locals: { sale: @sale })
+          ]
+        end
+      end
     end
   end
 
@@ -30,7 +53,7 @@ class SalesController < ApplicationController
     authorize @sale
     @sale.destroy
     respond_to do |format|
-      format.html { redirect_to sales_path, notice: "Venda removida com sucesso" }
+  format.html { redirect_to sales_path, notice: I18n.t("sales.removed") }
       format.turbo_stream
     end
   end

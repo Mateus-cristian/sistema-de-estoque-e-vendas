@@ -13,7 +13,7 @@ class Sale < ApplicationRecord
   private
 
   def enough_stock
-    errors.add(:base, "Insufficient stock") if product && quantity.to_i > product.quantity
+    errors.add(:base, I18n.t("sales.insufficient_stock")) if product && quantity.to_i > product.quantity
   end
 
   def calculate_total
