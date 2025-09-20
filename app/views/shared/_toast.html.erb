@@ -1,0 +1,18 @@
+<% n = defined?(notice) ? notice : flash[:notice] %>
+<% a = defined?(alert) ? alert : flash[:alert] %>
+<% if n || a %>
+  <div id="toast-flash" data-controller="toast" data-toast-timeout-value="4000" class="fixed bottom-4 right-4 z-50 transition-opacity duration-500">
+    <div class="toast toast-bottom toast-end">
+      <% if n %>
+        <div class="alert alert-success shadow-lg">
+          <span><%= n %></span>
+        </div>
+      <% end %>
+      <% if a %>
+        <div class="alert alert-error shadow-lg">
+          <span><%= a %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
