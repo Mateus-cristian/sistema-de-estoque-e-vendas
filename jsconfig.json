@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "baseUrl": "."
+  },
+  "include": ["tailwind.config.js", "types"]
+}
