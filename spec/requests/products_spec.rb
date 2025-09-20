@@ -46,7 +46,7 @@ RSpec.describe "Products", type: :request do
         expect {
           post products_path, params: { product: invalid_attributes }
         }.not_to change(Product, :count)
-        expect(response.body).to include("Quantity must be greater than or equal to 0")
+        expect(response.body).to include("deve ser maior ou igual a 0")
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe "Products", type: :request do
         }.not_to change(Product, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to include("Quantity must be greater than or equal to 0")
+        expect(response.body).to include("deve ser maior ou igual a 0")
       end
     end
 

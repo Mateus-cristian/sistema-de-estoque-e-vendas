@@ -14,7 +14,7 @@ RSpec.describe Sale, type: :model do
   it "is invalid with insufficient stock" do
     sale = Sale.new(user: user, product: product, quantity: 20)
     expect(sale).not_to be_valid
-    expect(sale.errors[:base]).to include("Insufficient stock")
+    expect(sale.errors[:base]).to include("Estoque insuficiente")
   end
 
   it "calculates total correctly" do

@@ -29,3 +29,8 @@
 
 en:
   hello: "Hello world"
+  sales:
+    created: "Sale was successfully created!"
+    removed: "Sale was successfully removed!"
+    error: "Could not save sale: %{errors}"
+    insufficient_stock: "Insufficient stock"
