@@ -14,6 +14,7 @@ gem "tailwindcss-rails"
 gem 'devise'
 gem "cssbundling-rails"
 gem 'pundit'
+gem "heroicon", "~> 1.0"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -57,4 +58,8 @@ group :development do
   gem 'rubocop-rails', require: false
 end
 
-gem "heroicon", "~> 1.0"
+group :test do
+  gem 'simplecov', require: false
+end
+
+
