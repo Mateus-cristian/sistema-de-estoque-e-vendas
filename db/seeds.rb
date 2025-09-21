@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+if Rails.env.development?
+	User.find_or_create_by!(email: 'user.admin@uorak.com') do |user|
+		user.name = 'admin'
+		user.password = '@123password'
+		user.password_confirmation = '@123password'
+		user.role = :admin
+	end
+	puts 'Usuário admin criado: user.admin@uorak.com / @123password'
+end
