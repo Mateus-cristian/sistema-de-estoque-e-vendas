@@ -86,17 +86,27 @@ RSpec.describe "Products", type: :request do
         expect(product.reload.name).to eq("Updated Name")
       end
 
-      it "does not update with invalid attributes" do
+      it "does not update with invalid attributes (HTML)" do
         patch product_path(product), params: {
           product: { price: -10 }
         }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(product.reload.price).not_to eq(-10)
       end
+
+      it "does not update with invalid attributes (Turbo Stream)" do
+    patch product_path(product),
+      params: { product: { price: -10 } },
+      headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    expect(response).to have_http_status(:ok) # Rails retorna 200 para Turbo Stream com erro
+    expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+    expect(response.body).to include("turbo-stream")
+    expect(product.reload.price).not_to eq(-10)
+      end
     end
 
     describe "DELETE /products/:id" do
-      it "destroys the product" do
+      it "destroys the product (HTML)" do
         product
         expect {
           delete product_path(product)
@@ -104,6 +114,14 @@ RSpec.describe "Products", type: :request do
         expect(response).to redirect_to(products_path)
         follow_redirect!
         expect(response.body).to include("Produto removido com sucesso")
+      end
+
+      it "destroys the product (Turbo Stream)" do
+        p = FactoryBot.create(:product)
+        expect {
+          delete product_path(p), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+        }.to change(Product, :count).by(-1)
+        expect(response).to have_http_status(:no_content) # Rails retorna 204 para Turbo Stream delete
       end
     end
   end
