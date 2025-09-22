@@ -20,9 +20,10 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
     if @product.save
+      flash[:notice] = I18n.t("products.created")
       respond_to do |format|
-        format.html { redirect_to products_path, notice: "Produto criado com sucesso" }
-        format.turbo_stream
+        format.html { redirect_to products_path }
+        format.turbo_stream { head :see_other, location: products_path }
       end
     else
       respond_to do |format|
@@ -42,8 +43,9 @@ class ProductsController < ApplicationController
   def update
     respond_to do |format|
       if @product.update(product_params)
-        format.html { redirect_to products_path, notice: "Produto atualizado com sucesso" }
-        format.turbo_stream
+        flash[:notice] = I18n.t("products.updated")
+        format.html { redirect_to products_path }
+        format.turbo_stream { head :see_other, location: products_path }
       else
         format.html { render :form_page, status: :unprocessable_entity }
         format.turbo_stream do
@@ -51,17 +53,26 @@ class ProductsController < ApplicationController
             "product_form",
             partial: "products/form",
             locals: { product: @product }
-          )
+          ), status: :unprocessable_entity
         end
       end
     end
   end
 
   def destroy
-    @product.destroy
-    respond_to do |format|
-      format.html { redirect_to products_path, notice: "Produto removido com sucesso" }
-      format.turbo_stream
+    begin
+      @product.destroy
+      flash[:notice] = I18n.t("products.removed")
+      respond_to do |format|
+        format.html { redirect_to products_path }
+        format.turbo_stream
+      end
+    rescue ActiveRecord::InvalidForeignKey
+      flash[:alert] = I18n.t("products.cannot_remove_linked")
+      respond_to do |format|
+        format.html { redirect_to products_path }
+        format.turbo_stream { render "shared/toast" }
+      end
     end
   end
 

@@ -2,82 +2,10 @@
 <div class="flex justify-between p-3 pt-6 md:container md:justify-self-center">
   <h1 class="font-bold text-red-700 text-2xl">Produtos</h1>
   <% if policy(Product).create? %>
-    <%= link_to "Novo Produto", new_product_path, class: "button-outline max-w-[120px]" %>
+    <%= link_to "Novo Produto", new_product_path, class: "button-outline max-w-[120px]", data: { turbo_frame: "_top" } %>
   <% end %>
 </div>
 
 <%= turbo_frame_tag "products_list" do %>
-  <ul class="flex flex-col  shadow rounded mx-2 md:hidden">
-    <% @products.each_with_index do |product, index| %>
-      <li id="<%= dom_id(product) %>" class="px-3 py-2 flex flex-col ">
-        <% if index > 0 %>
-        <div class="py-1 border-t border-gray-200 "></div>
-        <% end %>
-        <div class="font-semibold">Nome</div>
-        <span class="text-md"><%= product.name %></span>
-        <div class="font-semibold">Valor</div>
-        <span class="">R$ <%= product.price %></span>
-        <div class="font-semibold">Estoque</div>
-        <span class=""><%= product.quantity %></span>
-        <div class="flex gap-2 mt-2">
-          <% if policy(product).edit? %>
-            <%= link_to "Editar", form_page_product_path(product), class: "text-green-500 hover:underline" %>
-          <% end %>
-          <% if policy(product).destroy? %>
-            <%= button_to "Remover", product_path(product), method: :delete, data: { turbo_confirm: "Tem certeza?" }, form: { data: { turbo_frame: "_top" } }, class: "text-red-500 hover:underline" %>
-          <% end %>
-        </div>
-      </li>
-    <% end %>
-  </ul>
+  <%= render partial: "products/products_list", locals: { products: @products } %>
 <% end %>
-<div class="w-full flex justify-center">
-  <div class="overflow-x-auto container hidden md:block">
-    
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Valor</th>
-          <th>Estoque</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @products.each do |product| %>
-        <tr>
-          <td>
-            <span class="text-md"><%= product.name %></span>
-          </td>
-          <td>
-            <span class="text-md">R$ <%= product.price %></span>
-          </td>
-          <td>
-            <span class="text-md"><%= product.quantity %></span>
-          </td>
-          <% if policy(product).edit? %>
-          <th>
-            <%= link_to "Editar", form_page_product_path(product), class: "ml-2 text-green-500 hover:underline" %>
-          </th>
-          <% end %>
-          <% if policy(product).destroy? %>
-          <th>
-            <%= button_to "Remover", product_path(product), method: :delete, data: { turbo_confirm: "Tem certeza?" }, form: { data: { turbo_frame: "_top" } }, class: "ml-2 text-red-500 hover:underline" %>
-          </th>
-          <% end %>
-        </tr>
-        <% end %>
-      </tbody>
-      <!-- TODO: Pagination -->
-      <!-- <tfoot>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-      </tfoot> -->
-    </table>
-  </div>
-</div>

@@ -8,8 +8,4 @@
   </div>
 <% end %>
 
-
-
-<%= turbo_frame_tag "product_form" do %>
-  <%= render "form", product: @product %>
-<% end %>
+<%= render "form", product: @product %>

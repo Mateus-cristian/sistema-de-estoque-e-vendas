@@ -1,2 +1,1 @@
-<%= turbo_stream.append "products", partial: "products/product", locals: { product: @product } %>
-<%= turbo_stream.replace "product_form", partial: "products/form", locals: { product: Product.new } %>
+<%= turbo_stream.replace "products_list", partial: "products/products_list", locals: { products: Product.all } %>
