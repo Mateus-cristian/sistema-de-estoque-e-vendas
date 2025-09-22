@@ -118,7 +118,7 @@ RSpec.describe "Products", type: :request do
         expect {
           delete product_path(p), headers: { "Accept" => "text/vnd.turbo-stream.html" }
         }.to change(Product, :count).by(-1)
-    expect(response).to have_http_status(:ok) 
+    expect(response).to have_http_status(:ok)
       end
     end
   end
