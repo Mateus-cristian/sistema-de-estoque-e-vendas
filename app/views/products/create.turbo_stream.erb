@@ -1,1 +1,2 @@
+<%= turbo_stream.replace "toast", partial: "shared/toast" %>
 <%= turbo_stream.replace "products_list", partial: "products/products_list", locals: { products: Product.all } %>
