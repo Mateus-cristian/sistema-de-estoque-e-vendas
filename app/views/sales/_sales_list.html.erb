@@ -1,14 +1,14 @@
-<!-- Lista mobile -->
-<ul class="flex flex-col shadow rounded mx-2 md:hidden">
-  <% sales.each_with_index do |sale, index| %>
-    <li id="sale_<%= sale.id %>" class="px-3 py-2 flex flex-col">
-      <% if index> 0 %>
-        <div class="py-1 border-t border-gray-200"></div>
-        <% end %>
+<% cache sales do %>
+  <ul class="flex flex-col shadow rounded mx-2 md:hidden">
+    <% sales.each_with_index do |sale, index| %>
+      <% cache sale do %>
+        <li id="sale_<%= sale.id %>" class="px-3 py-2 flex flex-col">
+          <% if index > 0 %>
+            <div class="py-1 border-t border-gray-200"></div>
+          <% end %>
           <div class="font-semibold">Produto</div>
           <span class="text-md">
-            <%= link_to sale.product.name, sale_path(sale), class: "text-blue-700 hover:underline" , data: {
-              turbo_frame: "_top" } %>
+            <%= link_to sale.product.name, sale_path(sale), class: "text-blue-700 hover:underline", data: { turbo_frame: "_top" } %>
           </span>
           <div class="font-semibold">Quantidade</div>
           <span>
@@ -18,13 +18,14 @@
           <span>R$ <%= sale.total %></span>
           <div class="flex gap-2 mt-2">
             <% if policy(sale).destroy? %>
-              <%= button_to 'Remover' , sale_path(sale), method: :delete, data: { turbo_confirm: 'Tem certeza?' }, form:
-                { data: { turbo_frame: "_top" } }, class: "text-red-500 hover:underline" %>
-                <% end %>
+              <%= button_to 'Remover', sale_path(sale), method: :delete, data: { turbo_confirm: 'Tem certeza?' }, form: { data: { turbo_frame: "_top" } }, class: "text-red-500 hover:underline" %>
+            <% end %>
           </div>
-    </li>
+        </li>
+      <% end %>
     <% end %>
-</ul>
+  </ul>
+<% end %>
 <div class="w-full flex justify-center">
   <div class="overflow-x-auto container hidden md:block">
     <table class="table">
@@ -36,32 +37,34 @@
           <th></th>
         </tr>
       </thead>
+      <% cache sales do %>
       <tbody>
         <% sales.each do |sale| %>
-          <tr>
-            <td>
-              <span class="text-md">
-                <%= link_to sale.product.name, sale_path(sale), class: "text-blue-700 hover:underline" , data: {
-                  turbo_frame: "_top" } %>
-              </span>
-            </td>
-            <td>
-              <span class="text-md">
-                <%= sale.quantity %>
-              </span>
-            </td>
-            <td>
-              <span class="text-md">R$ <%= sale.total %></span>
-            </td>
-            <% if policy(sale).destroy? %>
-              <th>
-                <%= button_to 'Remover' , sale_path(sale), method: :delete, data: { turbo_confirm: 'Tem certeza?' },
-                  form: { data: { turbo_frame: "_top" } }, class: "ml-2 text-red-500 hover:underline" %>
-              </th>
+          <% cache sale do %>
+            <tr>
+              <td>
+                <span class="text-md">
+                  <%= link_to sale.product.name, sale_path(sale), class: "text-blue-700 hover:underline", data: { turbo_frame: "_top" } %>
+                </span>
+              </td>
+              <td>
+                <span class="text-md">
+                  <%= sale.quantity %>
+                </span>
+              </td>
+              <td>
+                <span class="text-md">R$ <%= sale.total %></span>
+              </td>
+              <% if policy(sale).destroy? %>
+                <th>
+                  <%= button_to 'Remover', sale_path(sale), method: :delete, data: { turbo_confirm: 'Tem certeza?' }, form: { data: { turbo_frame: "_top" } }, class: "ml-2 text-red-500 hover:underline" %>
+                </th>
               <% end %>
-          </tr>
+            </tr>
           <% end %>
+        <% end %>
       </tbody>
+      <% end %>
     </table>
   </div>
 </div>
