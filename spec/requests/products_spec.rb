@@ -95,10 +95,10 @@ RSpec.describe "Products", type: :request do
     patch product_path(product),
       params: { product: { price: -10 } },
       headers: { "Accept" => "text/vnd.turbo-stream.html" }
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(response.media_type).to eq("text/vnd.turbo-stream.html")
-    expect(response.body).to include("turbo-stream")
-    expect(product.reload.price).not_to eq(-10)
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+      expect(response.body).to include("turbo-stream")
+      expect(product.reload.price).not_to eq(-10)
       end
     end
 
@@ -118,7 +118,7 @@ RSpec.describe "Products", type: :request do
         expect {
           delete product_path(p), headers: { "Accept" => "text/vnd.turbo-stream.html" }
         }.to change(Product, :count).by(-1)
-    expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:ok)
       end
     end
   end
