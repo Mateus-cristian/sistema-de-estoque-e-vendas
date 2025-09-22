@@ -1,0 +1,67 @@
+<!-- Lista mobile -->
+<ul class="flex flex-col shadow rounded mx-2 md:hidden">
+  <% sales.each_with_index do |sale, index| %>
+    <li id="sale_<%= sale.id %>" class="px-3 py-2 flex flex-col">
+      <% if index> 0 %>
+        <div class="py-1 border-t border-gray-200"></div>
+        <% end %>
+          <div class="font-semibold">Produto</div>
+          <span class="text-md">
+            <%= link_to sale.product.name, sale_path(sale), class: "text-blue-700 hover:underline" , data: {
+              turbo_frame: "_top" } %>
+          </span>
+          <div class="font-semibold">Quantidade</div>
+          <span>
+            <%= sale.quantity %>
+          </span>
+          <div class="font-semibold">Total</div>
+          <span>R$ <%= sale.total %></span>
+          <div class="flex gap-2 mt-2">
+            <% if policy(sale).destroy? %>
+              <%= button_to 'Remover' , sale_path(sale), method: :delete, data: { turbo_confirm: 'Tem certeza?' }, form:
+                { data: { turbo_frame: "_top" } }, class: "text-red-500 hover:underline" %>
+                <% end %>
+          </div>
+    </li>
+    <% end %>
+</ul>
+<div class="w-full flex justify-center">
+  <div class="overflow-x-auto container hidden md:block">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Quantidade</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% sales.each do |sale| %>
+          <tr>
+            <td>
+              <span class="text-md">
+                <%= link_to sale.product.name, sale_path(sale), class: "text-blue-700 hover:underline" , data: {
+                  turbo_frame: "_top" } %>
+              </span>
+            </td>
+            <td>
+              <span class="text-md">
+                <%= sale.quantity %>
+              </span>
+            </td>
+            <td>
+              <span class="text-md">R$ <%= sale.total %></span>
+            </td>
+            <% if policy(sale).destroy? %>
+              <th>
+                <%= button_to 'Remover' , sale_path(sale), method: :delete, data: { turbo_confirm: 'Tem certeza?' },
+                  form: { data: { turbo_frame: "_top" } }, class: "ml-2 text-red-500 hover:underline" %>
+              </th>
+              <% end %>
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

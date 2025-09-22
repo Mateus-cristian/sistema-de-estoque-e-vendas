@@ -17,14 +17,9 @@ class SalesController < ApplicationController
     @sale.user = current_user
     respond_to do |format|
       if @sale.save
-        flash.now[:notice] = I18n.t("sales.created")
-        format.html { redirect_to sales_path, notice: I18n.t("sales.created") }
-        format.turbo_stream do
-          render turbo_stream: [
-            turbo_stream.replace("toast", partial: "shared/toast", locals: { notice: I18n.t("sales.created"), alert: nil }),
-            turbo_stream.replace("sale_form", partial: "sales/form", locals: { sale: Sale.new })
-          ]
-        end
+        flash[:notice] = I18n.t("sales.created")
+        format.html { redirect_to sales_path }
+        format.turbo_stream { head :see_other, location: sales_path }
       else
         translated_errors = @sale.errors.map do |attr, msg|
           attr_name = Sale.human_attribute_name(attr)
@@ -52,8 +47,9 @@ class SalesController < ApplicationController
   def destroy
     authorize @sale
     @sale.destroy
+    flash[:notice] = I18n.t("sales.removed")
     respond_to do |format|
-  format.html { redirect_to sales_path, notice: I18n.t("sales.removed") }
+      format.html { redirect_to sales_path }
       format.turbo_stream
     end
   end
