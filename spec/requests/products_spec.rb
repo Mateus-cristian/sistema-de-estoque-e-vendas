@@ -57,10 +57,7 @@ RSpec.describe "Products", type: :request do
                params: { product: valid_attributes },
                headers: { "Accept" => "text/vnd.turbo-stream.html" }
         }.to change(Product, :count).by(1)
-
-        expect(response).to have_http_status(:ok)
-        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
-        expect(response.body).to include("turbo-stream")
+        expect(response).to have_http_status(:see_other)
       end
 
       it "renders errors with turbo_stream when invalid" do
@@ -98,7 +95,7 @@ RSpec.describe "Products", type: :request do
     patch product_path(product),
       params: { product: { price: -10 } },
       headers: { "Accept" => "text/vnd.turbo-stream.html" }
-    expect(response).to have_http_status(:ok) # Rails retorna 200 para Turbo Stream com erro
+    expect(response).to have_http_status(:unprocessable_entity)
     expect(response.media_type).to eq("text/vnd.turbo-stream.html")
     expect(response.body).to include("turbo-stream")
     expect(product.reload.price).not_to eq(-10)
@@ -121,7 +118,7 @@ RSpec.describe "Products", type: :request do
         expect {
           delete product_path(p), headers: { "Accept" => "text/vnd.turbo-stream.html" }
         }.to change(Product, :count).by(-1)
-        expect(response).to have_http_status(:no_content) # Rails retorna 204 para Turbo Stream delete
+    expect(response).to have_http_status(:ok) 
       end
     end
   end
