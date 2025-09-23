@@ -12,7 +12,7 @@ RSpec.describe "Navbar", type: :system do
 
   context "as guest" do
     it "shows login and sign up links" do
-      visit root_path
+      visit new_user_session_path
 
       expect(page).to have_selector("form#new_user")
       expect(page).to have_button("Login")
