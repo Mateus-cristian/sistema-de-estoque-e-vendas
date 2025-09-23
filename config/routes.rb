@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   devise_for :users
-  root "pages#home", via: [:get, :post]
+  root "home#index"
   get "landing", to: "landing#index", as: :landing
   get "home", to: "home#index", as: :home
 
